@@ -2,7 +2,7 @@
 
 [ext_resource type="TileSet" uid="uid://blrhlduiywaps" path="res://map tileset.tres" id="1_ebxrd"]
 [ext_resource type="PackedScene" uid="uid://hwh6055s1y8p" path="res://player.tscn" id="2_g8iru"]
-[ext_resource type="PackedScene" uid="uid://ccj05exill4id" path="res://spider enemy.tscn" id="3_0yf4k"]
+[ext_resource type="PackedScene" uid="uid://cjn1nlcxnhp1s" path="res://scenes/enemies/crawler.tscn" id="3_q2uw6"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -22,7 +22,7 @@ layer_0/tile_data = PackedInt32Array(589817, 327680, 4, 589818, 65536, 6, 589820
 position = Vector2(8, -40)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(2, 2)
+zoom = Vector2(4, 4)
 
-[node name="Spider enemy" parent="." instance=ExtResource("3_0yf4k")]
-position = Vector2(120, -72)
+[node name="Crawler" parent="." instance=ExtResource("3_q2uw6")]
+position = Vector2(104, -72)

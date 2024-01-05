@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjn1nlcxnhp1s"]
+
+[ext_resource type="Texture2D" uid="uid://bpsch0o0n4li8" path="res://assets/sprites/crawler.png" id="1_55l4p"]
+[ext_resource type="Script" path="res://scenes/enemies/crawler.gd" id="1_jx1rb"]
+
+[node name="Crawler" type="CharacterBody2D"]
+script = ExtResource("1_jx1rb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_55l4p")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-8, -8, -8, 8, -4, 6, 0, 6, 4, 6, 8, 8, 8, -8, 3, -4, 0, -6, -3, -4)

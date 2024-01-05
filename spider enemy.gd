@@ -9,7 +9,8 @@ var current_speed: int
 
 func _physics_process(delta):
 	if not left_ray.is_colliding():
-		current_speed = speed
+		rotate(PI/2)
+		position += Vector2.ONE
 
 	if not right_ray.is_colliding():
 		current_speed = -speed
