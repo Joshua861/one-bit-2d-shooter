@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cpq72o33uovvb"]
+
+[ext_resource type="Texture2D" uid="uid://txu4xybtml6v" path="res://assets/sprites/bouncy ball launcher.png" id="1_526ng"]
+
+[node name="Bouncy gun" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_526ng")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(8, -1)

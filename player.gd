@@ -5,6 +5,7 @@ const JUMP_VELOCITY: float = -390
 const MAX_AIR_JUMPS: int = 1
 const AIR_JUMP_VELOCITY: float = -250
 const ANIMATION_SPEED: float = 100
+const GUN_DISTANCE: float = 15
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -25,6 +26,11 @@ var playing_squash = false
 var air_jump_particle
 var air_jump_particle_is_fading = false
 var walking = false
+var hit_enemy_timer = 5
+var hit_enemy = true
+var hit_enemy_this_frame
+
+signal shoot
 
 func _ready():
 	footsteps_timer.timeout.connect(footsteps)
@@ -60,8 +66,32 @@ func _physics_process(delta):
 		if abs(air_jump_particle.modulate.a) <= 0.001:
 			air_jump_particle.free()
 			air_jump_particle_is_fading = false
+	
+	if hit_enemy:
+		hit_enemy_timer -= 1
+		
+		if hit_enemy_timer == 0:
+			game_over()
 
 	move_and_slide()
+	
+	if Input.is_action_just_pressed("shoot"):
+		shoot.emit()
+	
+	var collisions = get_slide_collision_count()
+	for i in range(collisions):
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		
+		
+		if collider.is_in_group("enemies"):
+			hit_enemy_this_frame = true
+	
+	hit_enemy = hit_enemy_this_frame
+	hit_enemy_this_frame = false
+
+func _process(delta):
+	gun_movement()
 
 func handle_movement(delta):
 	# Get the input direction and handle the movement/deceleration.
@@ -147,3 +177,19 @@ func play_sound_from_folder(path, player):
 func footsteps():
 	if walking:
 		play_sound_from_folder("res://assets/sounds/footsteps/", footstep_sfx)
+
+func game_over():
+	get_tree().reload_current_scene()
+
+func gun_movement():
+	var mouse_pos = get_global_mouse_position()
+	var dir = (mouse_pos - global_position).normalized()
+	var gun_pos = dir * GUN_DISTANCE
+	
+	$"Bouncy gun".position = gun_pos
+	$"Bouncy gun".look_at(mouse_pos)
+	
+	if mouse_pos.x < global_position.x:
+		$"Bouncy gun/Sprite2D".set_flip_v(true)
+	else:
+		$"Bouncy gun/Sprite2D".set_flip_v(false)

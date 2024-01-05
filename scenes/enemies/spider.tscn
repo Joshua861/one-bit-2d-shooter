@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://ccj05exill4id"]
+
+[ext_resource type="Script" path="res://scenes/enemies/spider.gd" id="1_s6fa4"]
+[ext_resource type="Texture2D" uid="uid://dmf3iis4kuajj" path="res://assets/sprites/spider.png" id="2_ray72"]
+
+[node name="Spider" type="CharacterBody2D" groups=["enemies"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_s6fa4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ray72")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-5, -2, -2, 0, 2, 0, 5, -2, 7, 8, -7, 8)
+
+[node name="LeftRayCastDown" type="RayCast2D" parent="."]
+position = Vector2(-8, 0)
+target_position = Vector2(0, 11)
+collision_mask = 2
+
+[node name="RightRayCastDown" type="RayCast2D" parent="."]
+position = Vector2(8, 0)
+target_position = Vector2(0, 11)
+collision_mask = 2
+
+[node name="LeftRayCast" type="RayCast2D" parent="."]
+target_position = Vector2(-50, 0)
+
+[node name="RightRayCast" type="RayCast2D" parent="."]
+target_position = Vector2(50, 0)

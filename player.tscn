@@ -1,10 +1,12 @@
-[gd_scene load_steps=12 format=3 uid="uid://hwh6055s1y8p"]
+[gd_scene load_steps=14 format=3 uid="uid://hwh6055s1y8p"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_g3jm2"]
 [ext_resource type="Texture2D" uid="uid://1bni2qdkjl76" path="res://assets/sprites/player.png" id="2_wxix4"]
 [ext_resource type="Texture2D" uid="uid://b3sdfptnbolky" path="res://assets/sprites/air-jump particle.png" id="3_22e88"]
 [ext_resource type="AudioStream" uid="uid://da33m2fdv0uc5" path="res://assets/sounds/jump.wav" id="4_5tyd3"]
 [ext_resource type="AudioStream" uid="uid://bigny8s0o0g6r" path="res://assets/sounds/backgound.mp3" id="4_hju3v"]
+[ext_resource type="PackedScene" uid="uid://cpq72o33uovvb" path="res://scenes/weapons/bouncy_gun.tscn" id="6_bbigj"]
+[ext_resource type="Script" path="res://scenes/weapons/bouncy_gun.gd" id="7_vos7n"]
 
 [sub_resource type="Gradient" id="Gradient_hc7as"]
 colors = PackedColorArray(0.831373, 0.831373, 0.831373, 1, 1, 1, 1, 1)
@@ -14,16 +16,18 @@ gradient = SubResource("Gradient_hc7as")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bkmn8"]
 lifetime_randomness = 0.16
-particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(4.975, 1, 1)
+particle_flag_disable_z = true
 direction = Vector3(1, -1, 0)
 spread = 20.0
+gravity = Vector3(0, 98, 0)
 initial_velocity_min = 37.25
 initial_velocity_max = 57.35
 angular_velocity_min = -720.0
 angular_velocity_max = 720.0
-gravity = Vector3(0, 98, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
 scale_max = 2.0
 color = Color(0.898039, 0.898039, 0.898039, 1)
 color_initial_ramp = SubResource("GradientTexture1D_iqvs3")
@@ -39,23 +43,25 @@ gradient = SubResource("Gradient_0uayd")
 particle_flag_disable_z = true
 direction = Vector3(0, -1, 0)
 spread = 90.0
+gravity = Vector3(0, 98, 0)
 initial_velocity_min = 40.0
 initial_velocity_max = 60.0
 angular_velocity_min = -720.0
 angular_velocity_max = 720.0
-gravity = Vector3(0, 98, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
 scale_max = 2.0
 color_initial_ramp = SubResource("GradientTexture1D_owuk8")
 
 [node name="Player" type="CharacterBody2D"]
-collision_mask = 3
+collision_mask = 7
 script = ExtResource("1_g3jm2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_wxix4")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-6, -8, -8, -6, -8, 5, -5, 7, 5, 7, 7, 5, 7, 0, 1, -8)
+polygon = PackedVector2Array(-6, -8, -8, -6, -8, 5, -6, 7, 5, 7, 7, 5, 7, -6, 5, -8)
 
 [node name="air_jump_particle" type="Sprite2D" parent="."]
 visible = false
@@ -93,3 +99,8 @@ stream = ExtResource("4_5tyd3")
 [node name="footsteps timer" type="Timer" parent="."]
 wait_time = 0.2
 autostart = true
+
+[node name="Bouncy gun" parent="." instance=ExtResource("6_bbigj")]
+script = ExtResource("7_vos7n")
+
+[connection signal="shoot" from="." to="Bouncy gun" method="_on_player_shoot"]

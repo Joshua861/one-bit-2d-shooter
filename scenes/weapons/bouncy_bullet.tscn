@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bhslrjfrt6x6a"]
+
+[ext_resource type="Texture2D" uid="uid://cobssk0bqymkg" path="res://assets/sprites/bouncy ball.png" id="1_un4xf"]
+
+[node name="Bouncy bullet" type="CharacterBody2D"]
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_un4xf")
+
+[node name="Collision" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-1, -2, -2, -1, -2, 1, -1, 2, 1, 2, 2, 1, 2, -1, 1, -2)
