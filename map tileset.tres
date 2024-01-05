@@ -1016,7 +1016,7 @@ texture = ExtResource("1_o4s6h")
 
 [resource]
 physics_layer_0/collision_layer = 2
-physics_layer_0/collision_mask = 3
+physics_layer_0/collision_mask = 255
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Bricks"
 terrain_set_0/terrain_0/color = Color(0.701961, 0.0588235, 0.580392, 1)

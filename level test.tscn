@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://b2vxev0vk1d40"]
+[gd_scene load_steps=4 format=3 uid="uid://b2vxev0vk1d40"]
 
 [ext_resource type="TileSet" uid="uid://blrhlduiywaps" path="res://map tileset.tres" id="1_ebxrd"]
 [ext_resource type="PackedScene" uid="uid://hwh6055s1y8p" path="res://player.tscn" id="2_g8iru"]
+[ext_resource type="PackedScene" uid="uid://ccj05exill4id" path="res://spider enemy.tscn" id="3_0yf4k"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -22,3 +23,6 @@ position = Vector2(8, -40)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
+
+[node name="Spider enemy" parent="." instance=ExtResource("3_0yf4k")]
+position = Vector2(120, -72)

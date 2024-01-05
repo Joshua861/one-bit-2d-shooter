@@ -14,6 +14,9 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var air_jump_particle_parent = $Node
 @onready var walk_particles = $"walk particles"
 @onready var jump_sfx = $"jump sound effects"
+@onready var footstep_sfx = $"footstep sound player"
+@onready var footsteps_timer = $"footsteps timer"
+@onready var land_particles = $"land particles"
 
 var air_jumps: int
 var animation_playing: bool = false
@@ -21,6 +24,10 @@ var was_on_floor: bool
 var playing_squash = false
 var air_jump_particle
 var air_jump_particle_is_fading = false
+var walking = false
+
+func _ready():
+	footsteps_timer.timeout.connect(footsteps)
 
 func _physics_process(delta):
 	if not is_on_floor():
@@ -63,11 +70,14 @@ func handle_movement(delta):
 		velocity.x = direction * SPEED
 		if is_on_floor():
 			walk_particles.emitting = true
+			walking = true
 		else:
 			walk_particles.emitting = false
+			walking = false
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		walk_particles.emitting = false
+		walking = false
 
 func jump(force = JUMP_VELOCITY):
 	velocity.y = JUMP_VELOCITY
@@ -80,7 +90,6 @@ func air_jump():
 	
 	air_jump_particle_parent.add_child($air_jump_particle.duplicate())
 	air_jump_particle = $Node/air_jump_particle
-	print(air_jump_particle_parent.get_children())
 	air_jump_particle.visible = true
 	air_jump_particle.position = position
 	air_jump_particle_is_fading = true
@@ -112,6 +121,7 @@ func sprite_flipping():
 
 func on_land():
 	playing_squash = true
+	land_particles.restart()
 
 func play_squash(delta):
 	var target_scale = Vector2(1.125, 0.875)
@@ -119,3 +129,21 @@ func play_squash(delta):
 	
 	if Vector2(snappedf(sprite.scale.x, 0.001), snappedf(sprite.scale.y, 0.001)) == target_scale:
 		playing_squash = false
+
+func play_sound(path, player):
+	var sound = load(path)
+	player.stream = sound
+	player.play()
+
+func play_sound_from_folder(path, player):
+	var dir = DirAccess.open(path)
+	if dir:
+		var files = dir.get_files()
+		var file = 'import'
+		while file.contains("import"):
+			file = files[randi() % files.size()]
+		play_sound(path + "/" + file, player)
+
+func footsteps():
+	if walking:
+		play_sound_from_folder("res://assets/sounds/footsteps/", footstep_sfx)
